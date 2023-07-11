@@ -1,0 +1,46 @@
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
+
+void setup() {
+    // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+  // Print a message to the LCD.
+  lcd.print("Hey LinkedIn Fam");
+  // put your setup code here, to run once:
+    
+    pinMode(9, OUTPUT);
+    pinMode(10, OUTPUT);
+    pinMode(11, OUTPUT);
+    Serial.begin(9600);
+ }
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  int sensorvalue= analogRead(A0);
+  Serial.print(sensorvalue);
+  Serial.print("\n");
+  if((sensorvalue>=0) && (sensorvalue<=549)){
+  digitalWrite(9,HIGH);
+  digitalWrite(10,LOW);
+  digitalWrite(11,LOW);
+  lcd.setCursor(0, 1);
+  lcd.print("water level =");
+  lcd.setCursor(13, 1);
+  lcd.print(sensorvalue);}
+
+  else if((sensorvalue>=500) && (sensorvalue<=760)){
+  digitalWrite(9,LOW);
+  digitalWrite(10,HIGH);
+  digitalWrite(11,LOW);
+  lcd.setCursor(0, 1);
+  lcd.print("water level =");
+  lcd.setCursor(13, 1);
+  lcd.print(sensorvalue);}
+     
+  else if( sensorvalue>=760) {
+  digitalWrite(9,LOW);
+  digitalWrite(10,LOW);
+  digitalWrite(11,HIGH);
+  lcd.setCursor(0, 1);
+  lcd.print("water level full");}   
+}
